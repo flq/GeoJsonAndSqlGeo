@@ -1,0 +1,8 @@
+NUGET
+  remote: https://www.nuget.org/api/v2
+  specs:
+    GeoJSON.Net (0.1.38)
+      Newtonsoft.Json
+    Newtonsoft.Json (6.0.8)
+    NUnit (2.6.4)
+    Shouldly (2.5.0)
