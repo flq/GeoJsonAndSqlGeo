@@ -46,6 +46,7 @@
     <Compile Include="GeoJsonWalkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlGeoBuilderTests.cs" />
+    <Compile Include="SqlGeographyParserTests.cs" />
     <Compile Include="TestingContext.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,12 +64,56 @@
   </Target>
   -->
   <ItemGroup>
+    <EmbeddedResource Include="Examples\ng_earthquakes.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\geometrycollection.json" />
+    <EmbeddedResource Include="Examples\linestring.json" />
+    <EmbeddedResource Include="Examples\multilinestring.json" />
+    <EmbeddedResource Include="Examples\multipoint.json" />
+    <EmbeddedResource Include="Examples\multipolygon.json" />
+    <EmbeddedResource Include="Examples\point.json" />
+    <EmbeddedResource Include="Examples\polygon.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\point.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\polygon.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\multipoint.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\multipolygon.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\geometrycollection.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\multilinestring.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Examples\linestring.sqltype" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="GeoJSON.Net">
       <HintPath>..\packages\GeoJSON.Net\lib\GeoJSON.Net.dll</HintPath>
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
+  <Choose>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="Irony">
+          <HintPath>..\packages\Irony\lib\net45\Irony.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
       <ItemGroup>
@@ -140,39 +185,6 @@
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\ng_earthquakes.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\geometrycollection.json" />
-    <EmbeddedResource Include="Examples\linestring.json" />
-    <EmbeddedResource Include="Examples\multilinestring.json" />
-    <EmbeddedResource Include="Examples\multipoint.json" />
-    <EmbeddedResource Include="Examples\multipolygon.json" />
-    <EmbeddedResource Include="Examples\point.json" />
-    <EmbeddedResource Include="Examples\polygon.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\point.sqltype" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\polygon.sqltype" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\multipoint.sqltype" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\multipolygon.sqltype" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\geometrycollection.sqltype" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\multilinestring.sqltype" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Examples\linestring.sqltype" />
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">

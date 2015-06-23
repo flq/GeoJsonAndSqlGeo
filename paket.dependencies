@@ -4,3 +4,4 @@ source http://jenkinsqae:8090/guestAuth/app/nuget/v1/FeedService.svc/
 nuget GeoJSON.Net
 nuget NUnit
 nuget Shouldly
+nuget Irony

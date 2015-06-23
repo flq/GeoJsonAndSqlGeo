@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GeoJSON.Net;
 using GeoJSON.Net.Converters;
 using GeoJSON.Net.Feature;
@@ -38,6 +39,13 @@ namespace Tests
         {
             var json = ResourceLoader.LoadJson(fileName);
             var obj = JsonConvert.DeserializeObject<T>(json, new GeometryConverter());
+            return obj;
+        }
+
+        public static object GetObjectFromJson(string fileName, Type resultingType)
+        {
+            var json = ResourceLoader.LoadJson(fileName);
+            var obj = JsonConvert.DeserializeObject(json, resultingType, new GeometryConverter());
             return obj;
         }
 

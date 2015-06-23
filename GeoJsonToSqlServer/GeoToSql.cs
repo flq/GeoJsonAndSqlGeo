@@ -1,5 +1,5 @@
 ﻿using GeoJSON.Net;
-using GeoJSON.Net.Geometry;
+using Irony.Parsing;
 using Microsoft.SqlServer.Types;
 
 namespace GeoJsonToSqlServer
@@ -44,9 +44,31 @@ namespace GeoJsonToSqlServer
             return visitor.ConstructedGeography;
         }
 
+        public static GeoJSONObject Translate(SqlGeography sqlGeography)
+        {
+            return Translate(sqlGeography.ToString());
+        }
+
+        public static GeoJSONObject Translate(string sqlGeographyRepresentation)
+        {
+            AssertValidity();
+            var tree = ParseTree(sqlGeographyRepresentation);
+            return (GeoJSONObject)tree.Root.AstNode;
+        }
+
         public static void Reset()
         {
             _spatialReferenceSystemId = null;
+        }
+
+        internal static ParseTree ParseTree(string sqlGeographyRepresentation, bool throwOnError = true)
+        {
+            var grammar = new SqlGeographyGrammar();
+            var p = new Parser(grammar);
+            var tree = p.Parse(sqlGeographyRepresentation);
+            if (tree.Status == ParseTreeStatus.Error && throwOnError)
+                throw new SqlGeometryParseException(tree);
+            return tree;
         }
 
         private static void AssertValidity()

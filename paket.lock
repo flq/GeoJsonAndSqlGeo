@@ -3,6 +3,7 @@ NUGET
   specs:
     GeoJSON.Net (0.1.38)
       Newtonsoft.Json
+    Irony (0.9.0)
     Newtonsoft.Json (6.0.8)
     NUnit (2.6.4)
     Shouldly (2.5.0)
