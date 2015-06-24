@@ -4,7 +4,7 @@ using GeoJSON.Net;
 using GeoJSON.Net.Converters;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using GeoJsonToSqlServer;
+using GeoJsonAndSqlGeo;
 using Microsoft.SqlServer.Types;
 using Newtonsoft.Json;
 using NUnit.Framework;

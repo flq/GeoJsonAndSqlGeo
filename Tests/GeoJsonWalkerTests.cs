@@ -1,6 +1,6 @@
 ﻿using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
-using GeoJsonToSqlServer;
+using GeoJsonAndSqlGeo;
 using NUnit.Framework;
 using Shouldly;
 

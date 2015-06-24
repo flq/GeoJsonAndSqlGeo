@@ -1,4 +1,4 @@
-﻿using GeoJsonToSqlServer;
+﻿using GeoJsonAndSqlGeo;
 using NUnit.Framework;
 
 namespace Tests

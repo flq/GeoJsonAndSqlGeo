@@ -1,7 +1,7 @@
 ﻿using System;
 using Irony;
 
-namespace GeoJsonToSqlServer
+namespace GeoJsonAndSqlGeo
 {
     public class NoSpatialReferenceDefinedException : Exception
     {

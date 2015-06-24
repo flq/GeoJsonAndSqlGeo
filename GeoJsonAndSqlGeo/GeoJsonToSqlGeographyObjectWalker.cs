@@ -2,7 +2,7 @@
 using GeoJSON.Net.Geometry;
 using Microsoft.SqlServer.Types;
 
-namespace GeoJsonToSqlServer
+namespace GeoJsonAndSqlGeo
 {
 
     internal class GeoJsonToSqlGeographyObjectWalker : GeoJsonObjectVisitor

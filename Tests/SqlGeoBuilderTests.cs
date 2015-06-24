@@ -3,7 +3,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using GeoJSON.Net;
 using GeoJSON.Net.Geometry;
-using GeoJsonToSqlServer;
+using GeoJsonAndSqlGeo;
 using Irony.Parsing;
 using Microsoft.SqlServer.Types;
 using Newtonsoft.Json;

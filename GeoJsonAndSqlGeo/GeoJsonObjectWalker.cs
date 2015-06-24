@@ -4,7 +4,7 @@ using GeoJSON.Net;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 
-namespace GeoJsonToSqlServer
+namespace GeoJsonAndSqlGeo
 {
     /// <summary>
     /// Class that helps you visit some hierarchy of geometry objects.

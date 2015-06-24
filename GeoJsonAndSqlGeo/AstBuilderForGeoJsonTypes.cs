@@ -6,7 +6,7 @@ using GeoJSON.Net.Geometry;
 using Irony.Ast;
 using Irony.Parsing;
 
-namespace GeoJsonToSqlServer
+namespace GeoJsonAndSqlGeo
 {
     internal static class AstBuilderForGeoJsonTypes
     {

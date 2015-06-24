@@ -1,9 +1,7 @@
-using System.Linq;
-using GeoJSON.Net.Geometry;
 using Irony.Ast;
 using Irony.Parsing;
 
-namespace GeoJsonToSqlServer
+namespace GeoJsonAndSqlGeo
 {
     internal class SqlGeographyGrammar : Grammar
     {

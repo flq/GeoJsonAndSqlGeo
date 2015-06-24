@@ -2,7 +2,7 @@
 using Irony.Parsing;
 using Microsoft.SqlServer.Types;
 
-namespace GeoJsonToSqlServer
+namespace GeoJsonAndSqlGeo
 {
     public static class GeoToSql
     {
