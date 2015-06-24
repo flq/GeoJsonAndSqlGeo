@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("GeoJsonAndSqlGeo")]
 [assembly: AssemblyDescription("Library to translate between GeoJson and SqlGeography")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("realfiction")]
+[assembly: AssemblyCompany("Frank Quednau")]
 [assembly: AssemblyProduct("GeoJsonToSqlServer")]
 [assembly: AssemblyCopyright("Copyright © realfiction 2015")]
 
