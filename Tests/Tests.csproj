@@ -50,9 +50,9 @@
     <Compile Include="TestingContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeoJsonToSqlServer\GeoJsonToSqlServer.csproj">
+    <ProjectReference Include="..\GeoJsonAndSqlGeo\GeoJsonAndSqlGeo.csproj">
       <Project>{2408a66e-ce87-4036-b689-ceee31374c58}</Project>
-      <Name>GeoJsonToSqlServer</Name>
+      <Name>GeoJsonAndSqlGeo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

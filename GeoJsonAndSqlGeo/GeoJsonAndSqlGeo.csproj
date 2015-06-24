@@ -7,8 +7,8 @@
     <ProjectGuid>{2408A66E-CE87-4036-B689-CEEE31374C58}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeoJsonToSqlServer</RootNamespace>
-    <AssemblyName>GeoJsonToSqlServer</AssemblyName>
+    <RootNamespace>GeoJsonAndSqlGeo</RootNamespace>
+    <AssemblyName>GeoJsonAndSqlGeo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

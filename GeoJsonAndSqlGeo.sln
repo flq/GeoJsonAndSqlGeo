@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5236BA
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoJsonToSqlServer", "GeoJsonToSqlServer\GeoJsonToSqlServer.csproj", "{2408A66E-CE87-4036-B689-CEEE31374C58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoJsonAndSqlGeo", "GeoJsonAndSqlGeo\GeoJsonAndSqlGeo.csproj", "{2408A66E-CE87-4036-B689-CEEE31374C58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8AC5AA6C-CD2D-47FE-8970-29FD0DA28940}"
 EndProject
