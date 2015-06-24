@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data.SqlTypes;
 using System.Diagnostics;
+using System.IO;
 using GeoJSON.Net;
+using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using GeoJsonAndSqlGeo;
 using Irony.Parsing;
@@ -29,6 +31,16 @@ namespace Tests
             var geography = SqlGeographyFromJsonFile(name);
             Debug.WriteLine(geography.ToString());
             AssertIsEqualToRepresentationInFile(geography, name);
+        }
+
+        [Test]
+        public void feature_collection_becomes_geometrycollection()
+        {
+            var json = GetObjectFromJson<FeatureCollection>("ng_earthquakes");
+            var geometry = GeoToSql.Translate(json);
+            File.WriteAllText(@"C:\users\fqu\desktop\sqlgeo.txt", geometry.ToString());
+            Debug.WriteLine(geometry.ToString());
+            AssertIsEqualToRepresentationInFile(geometry, "ng_earthquakes");
         }
 
         [Test]

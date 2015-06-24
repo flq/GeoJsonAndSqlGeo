@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Microsoft.SqlServer.Types;
 
@@ -23,7 +24,12 @@ namespace GeoJsonAndSqlGeo
         {
             _bld.BeginGeography(OpenGisGeographyType.GeometryCollection);
             gcl.SetExitActivity(() => _bld.EndGeography());
+        }
 
+        public override void Visit(GeoWalkContext<FeatureCollection> fcl)
+        {
+            _bld.BeginGeography(OpenGisGeographyType.GeometryCollection);
+            fcl.SetExitActivity(() => _bld.EndGeography());
         }
 
         public override void Visit(GeoWalkContext<MultiPolygon> mpl)

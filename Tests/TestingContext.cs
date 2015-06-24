@@ -18,7 +18,7 @@ namespace Tests
         [TestFixtureSetUp]
         public void Given()
         {
-            GeoToSql.SetReferenceSystem(ReferenceSystem);
+            GeoToSql.Configure(cfg => cfg.SetReferenceSystem((int)SpatialReferenceSystem.WorldGeodetic1984));
         }
 
         [SetUp]
@@ -42,22 +42,17 @@ namespace Tests
             return obj;
         }
 
-        public static object GetObjectFromJson(string fileName, Type resultingType)
+        protected static object GetObjectFromJson(string fileName, Type resultingType)
         {
             var json = ResourceLoader.LoadJson(fileName);
             var obj = JsonConvert.DeserializeObject(json, resultingType, new GeometryConverter());
             return obj;
         }
 
-        public static void AssertIsEqualToRepresentationInFile(SqlGeography sqlGeo, string fileName)
+        protected static void AssertIsEqualToRepresentationInFile(SqlGeography sqlGeo, string fileName)
         {
             var content = ResourceLoader.LoadSqlType(fileName);
             sqlGeo.ToString().ShouldBe(content);
-        }
-
-        protected virtual int ReferenceSystem
-        {
-            get { return (int)SpatialReferenceSystem.WorldGeodetic1984; }
         }
     }
 

@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyTitle("GeoJsonToSqlServer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("GeoJsonAndSqlGeo")]
+[assembly: AssemblyDescription("Library to translate between GeoJson and SqlGeography")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Win PE Pass")]
+[assembly: AssemblyCompany("realfiction")]
 [assembly: AssemblyProduct("GeoJsonToSqlServer")]
-[assembly: AssemblyCopyright("Copyright © Win PE Pass 2015")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCopyright("Copyright © realfiction 2015")]
+
 [assembly: InternalsVisibleTo("Tests")]
 
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.9.0")]
+[assembly: AssemblyFileVersion("0.9.0")]
