@@ -12,3 +12,8 @@ This library has the following dependencies:
 Entry point is the `GeoJsonSql` class. Call `Translate`to get back and forth from a deserialized GeoJson tree to a 
 SqlGeography instance. Call Configure to set a few necessary things. In fact the only mandatory thing you need to set 
 is the underlying coordinate system of the SqlGeography.
+
+Useful Links:
+
+- [https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.types.sqlgeographybuilder.aspx](SqlGeographyBuilder)
+- [http://blogs.msdn.com/b/davidlean/archive/2008/10/30/sql-2008-spatial-samples-part-n-5-of-n-sql-builder-api.aspx](Overview of Methods to make your own Spatial Objects using the Builder API.)

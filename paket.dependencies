@@ -1,6 +1,5 @@
 redirects: on
 source https://www.nuget.org/api/v2/
-source http://jenkinsqae:8090/guestAuth/app/nuget/v1/FeedService.svc/
 
 nuget GeoJSON.Net
 nuget Newtonsoft.Json ~> 6.0 #Because GeoJson forgot to define its version range

@@ -59,6 +59,7 @@
   -->
   <ItemGroup>
     <None Include="paket.references" />
+    <None Include="paket.template" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GeoJSON.Net">

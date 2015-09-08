@@ -1,17 +1,24 @@
-﻿using GeoJsonAndSqlGeo;
+﻿using System.Linq;
+using GeoJSON.Net.Geometry;
+using GeoJsonAndSqlGeo;
 using NUnit.Framework;
+using Shouldly;
+using Tests.Examples;
 
 namespace Tests
 {
-    //[TestFixture]
-    public class SqlGeographyParserTests
+    [TestFixture]
+    public class SqlGeographyParserTests : TestingContext
     {
       
-        //[Test]
-        public void test_multipoint_parsing()
+        [Test]
+        public void test_parsing_with_negative_numbers()
         {
-            const string content = "((100 0, 100 1), (100 2))";
-            var tree = GeoToSql.ParseTree(content, throwOnError: false);
+            var content = ResourceLoader.LoadSqlType("polygon_w_neg_nums");
+            var geoJson = GeoToSql.Translate(content);
+            geoJson.ShouldBeOfType<GeometryCollection>();
+            ((GeometryCollection)geoJson).Geometries.Count.ShouldBe(3);
+            ((GeometryCollection)geoJson).Geometries.ShouldAllBe(go => go is Polygon);
         }
     }
 }

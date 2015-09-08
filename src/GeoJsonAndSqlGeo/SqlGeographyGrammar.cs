@@ -17,7 +17,7 @@ namespace GeoJsonAndSqlGeo
             var POLYGON = ToTerm("POLYGON");
             var MULTIPOLYGON = ToTerm("MULTIPOLYGON");
             var GEOMETRYCOLLECTION = ToTerm("GEOMETRYCOLLECTION");
-            var number = new NumberLiteral("number");
+            var number = new NumberLiteral("number", NumberOptions.AllowSign);
             var comma = ToTerm(", ");
             var openBracket = ToTerm("(");
             var closeBracket = ToTerm(")");
