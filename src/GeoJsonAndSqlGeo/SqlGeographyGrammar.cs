@@ -5,7 +5,7 @@ namespace GeoJsonAndSqlGeo
 {
     internal class SqlGeographyGrammar : Grammar
     {
-        public SqlGeographyGrammar() : base(false)
+        public SqlGeographyGrammar(string sqlGeoToParse) : base(false)
         {
             LanguageFlags |= LanguageFlags.CreateAst;
             
@@ -17,6 +17,8 @@ namespace GeoJsonAndSqlGeo
             var POLYGON = ToTerm("POLYGON");
             var MULTIPOLYGON = ToTerm("MULTIPOLYGON");
             var GEOMETRYCOLLECTION = ToTerm("GEOMETRYCOLLECTION");
+            var CURVEPOLYGON = ToTerm("CURVEPOLYGON");
+            var CIRCULARSTRING = ToTerm("CIRCULARSTRING");
             var number = new NumberLiteral("number", NumberOptions.AllowSign);
             var comma = ToTerm(", ");
             var openBracket = ToTerm("(");
@@ -36,10 +38,11 @@ namespace GeoJsonAndSqlGeo
             var multiLineStringDef = new NonTerminal("multilineString") { Rule = MULTILINESTRING + multiCoordSet };
             var polygonDef = new NonTerminal("polygon") { Rule = POLYGON + multiCoordSet };
             var multiPolygonDef = new NonTerminal("multipolygon") { Rule = MULTIPOLYGON + setOfMultiCoordSets };
+            var circleDef = new NonTerminal("circle") { Rule = CURVEPOLYGON + openBracket + CIRCULARSTRING + coordSet + closeBracket };
             
             var geometryDef = new NonTerminal("geometry")
             {
-                Rule = pointDef | multiPointDef | lineStringDef | multiLineStringDef | polygonDef | multiPolygonDef
+                Rule = pointDef | multiPointDef | lineStringDef | multiLineStringDef | polygonDef | multiPolygonDef | circleDef
             };
 
             var geometries = new NonTerminal("geometries");
@@ -54,21 +57,26 @@ namespace GeoJsonAndSqlGeo
 
             // --------------
 
-            NoopAstFor(POINT, LINESTRING, number, comma, openBracket, closeBracket, 
+            NoopAstFor(POINT, LINESTRING, CURVEPOLYGON, CIRCULARSTRING,  number, comma, openBracket, closeBracket, 
                        coords, coordSet, coordSets, multiCoordSets, setOfMultiCoordSets, geometryDef, geometries);
-            
-            AstBuilderForGeoJsonTypes.AstBuilderForGeoPosition(coord);
-            AstBuilderForGeoJsonTypes.AstBuilderForCoordinateSet(coordSet, coord);
-            AstBuilderForGeoJsonTypes.AstBuilderForMultipleCoordinateSets(multiCoordSet, coordSet);
-            AstBuilderForGeoJsonTypes.AstBuilderForPoint(pointDef, coord);
-            AstBuilderForGeoJsonTypes.AstBuilderForMultiPoint(multiPointDef, multiCoordSet);
-            AstBuilderForGeoJsonTypes.AstBuilderForLineString(lineStringDef, coordSet);
-            AstBuilderForGeoJsonTypes.AstBuilderForMultiLine(multiLineStringDef, multiCoordSet);
-            AstBuilderForGeoJsonTypes.AstBuilderForPolygon(polygonDef, multiCoordSet);
-            AstBuilderForGeoJsonTypes.AstBuilderForMultiPolygon(multiPolygonDef, multiCoordSet);
-            AstBuilderForGeoJsonTypes.AstBuilderForGeometry(geometryDef);
-            AstBuilderForGeoJsonTypes.AstBuilderForGeometryCollection(geometryCollection, geometryDef);
-            AstBuilderForGeoJsonTypes.AstBuilderForRoot(Root);
+
+            var astBuilder = GeoToSql.ConstructionStyle == GeoJsonConstructionStyle.AsGeometryCollection ?
+                (IGeoJsonAstBuilder)new GeoJsonAstBuilderGeoCollectionStyle() :
+                new GeoJsonAstBuilderFeatureCollectionStyle(sqlGeoToParse);
+
+            astBuilder.ForGeoPosition(coord);
+            astBuilder.ForCoordinateSet(coordSet, coord);
+            astBuilder.ForMultipleCoordinateSets(multiCoordSet, coordSet);
+            astBuilder.ForPoint(pointDef, coord);
+            astBuilder.ForMultiPoint(multiPointDef, multiCoordSet);
+            astBuilder.ForLineString(lineStringDef, coordSet);
+            astBuilder.ForMultiLine(multiLineStringDef, multiCoordSet);
+            astBuilder.ForPolygon(polygonDef, multiCoordSet);
+            astBuilder.ForMultiPolygon(multiPolygonDef, multiCoordSet);
+            astBuilder.ForCircleDefinition(circleDef, coordSet);
+            astBuilder.ForGeometry(geometryDef);
+            astBuilder.ForGeometryCollection(geometryCollection, geometryDef);
+            astBuilder.ForRoot(Root);
         }
 
         

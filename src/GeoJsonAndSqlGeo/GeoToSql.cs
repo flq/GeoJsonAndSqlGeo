@@ -21,6 +21,16 @@ namespace GeoJsonAndSqlGeo
             }
         }
 
+        public static GeoJsonConstructionStyle ConstructionStyle
+        {
+            get
+            {
+                AssertValidity();
+                // ReSharper disable once PossibleInvalidOperationException
+                return _constructionStyle.HasValue ? _constructionStyle.Value : GeoJsonConstructionStyle.AsGeometryCollection;
+            }
+        }
+
         /// <summary>
         /// Please call this before using any of the Translate methods.
         /// It is mandatory to set up at least the spatial reference system.
@@ -83,7 +93,7 @@ namespace GeoJsonAndSqlGeo
 
         private static ParseTree ParseTree(string sqlGeographyRepresentation, bool throwOnError = true)
         {
-            var grammar = new SqlGeographyGrammar();
+            var grammar = new SqlGeographyGrammar(sqlGeographyRepresentation);
             var p = new Parser(grammar);
             var tree = p.Parse(sqlGeographyRepresentation);
             if (tree.Status == ParseTreeStatus.Error && throwOnError)
