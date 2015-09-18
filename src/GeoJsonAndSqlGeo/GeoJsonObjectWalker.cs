@@ -149,6 +149,16 @@ namespace GeoJsonAndSqlGeo
             return new GeoWalkContext<Z>((Z)(GeoJSONObject)Item, CurrentDepth, Parent);
         }
 
+        public void SetState<T>(T obj)
+        {
+            
+        }
+
+        public void GetState<T>(T obj)
+        {
+
+        }
+
         internal void CallExitActivity()
         {
             _exitAction();

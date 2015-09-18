@@ -9,6 +9,7 @@ namespace GeoJsonAndSqlGeo
     {
 
         private static int? _spatialReferenceSystemId;
+        private static GeoJsonConstructionStyle? _constructionStyle;
 
         public static int ReferenceId
         {
@@ -50,16 +51,16 @@ namespace GeoJsonAndSqlGeo
             _spatialReferenceSystemId = spatialReferenceId;
         }
 
-
-        private static void SetReferenceSystem(SpatialReferenceSystem spatialReference)
-        {
-            _spatialReferenceSystemId = (int) spatialReference;
-        }
-
         // ReSharper disable once UnusedMember.Global - Part of API
         public static GeoJSONObject Translate(SqlGeography sqlGeography)
         {
             return Translate(sqlGeography.ToString());
+        }
+
+        public static void Reset()
+        {
+            _spatialReferenceSystemId = null;
+            _constructionStyle = null;
         }
 
         public static GeoJSONObject Translate(string sqlGeographyRepresentation)
@@ -69,12 +70,18 @@ namespace GeoJsonAndSqlGeo
             return (GeoJSONObject)tree.Root.AstNode;
         }
 
-        public static void Reset()
+
+        private static void SetReferenceSystem(SpatialReferenceSystem spatialReference)
         {
-            _spatialReferenceSystemId = null;
+            _spatialReferenceSystemId = (int)spatialReference;
         }
 
-        internal static ParseTree ParseTree(string sqlGeographyRepresentation, bool throwOnError = true)
+        private static void SetConstructionStyle(GeoJsonConstructionStyle constructionStyle)
+        {
+            _constructionStyle = constructionStyle;
+        }
+
+        private static ParseTree ParseTree(string sqlGeographyRepresentation, bool throwOnError = true)
         {
             var grammar = new SqlGeographyGrammar();
             var p = new Parser(grammar);
@@ -101,6 +108,11 @@ namespace GeoJsonAndSqlGeo
             {
                 SetReferenceSystem(id);
             }
+
+            void IConfig.SetSqlGeographyToGeoJsonConstructionStyle(GeoJsonConstructionStyle constructionStyle)
+            {
+                SetConstructionStyle(constructionStyle);
+            }
         }
     }
 
@@ -115,6 +127,12 @@ namespace GeoJsonAndSqlGeo
         /// Initialize to a known spatial reference system
         /// </summary>
         void SetReferenceSystem(SpatialReferenceSystem id);
+
+        /// <summary>
+        /// Set how the output of the SqlGeography -> GeoJson Translate method should look like.
+        /// Default is <see cref="GeoJsonConstructionStyle.AsGeometryCollection"/>
+        /// </summary>
+        void SetSqlGeographyToGeoJsonConstructionStyle(GeoJsonConstructionStyle constructionStyle);
     }
 
     /// <summary>
@@ -123,5 +141,21 @@ namespace GeoJsonAndSqlGeo
     public enum SpatialReferenceSystem
     {
         WorldGeodetic1984 = 4326
+    }
+
+    /// <summary>
+    /// The output that you want from the <see cref="GeoToSql.Translate(SqlGeography)"/> method.
+    /// </summary>
+    public enum GeoJsonConstructionStyle
+    {
+        /// <summary>
+        /// Returns the sql geometry collection as geojeon collection. Please note that this method is incompatible if you
+        /// stored via the supported method of Feature + Point + radius property.
+        /// </summary>
+        AsGeometryCollection,
+        /// <summary>
+        /// Returns each top-level item of the geometrycollection as a feature. This will support output of a geojson "circle"
+        /// </summary>
+        AsFeatureCollection
     }
 }

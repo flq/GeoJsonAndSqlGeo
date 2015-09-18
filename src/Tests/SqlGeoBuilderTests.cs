@@ -34,11 +34,31 @@ namespace Tests
         }
 
         [Test]
+        public void special_case_with_circle()
+        {
+/*            var b = new SqlGeographyBuilder();
+            b.SetSrid(4326);
+            b.BeginGeography(OpenGisGeographyType.Point);
+            b.BeginFigure(47.38905261221537, 6.8939208984375);
+            b.EndFigure();
+            b.EndGeography();
+            var geo = b.ConstructedGeography.BufferWithCurves(9000.0);
+            var envCenter = geo.EnvelopeCenter();
+            var dou = geo.STStartPoint().STDistance(envCenter);
+            Debug.WriteLine(geo.ToString());
+            Debug.WriteLine(envCenter.ToString());
+            Debug.WriteLine(dou.ToString());*/
+            
+            var json = GetObjectFromJson<FeatureCollection>("ng_with_circle");
+            var geography = GeoToSql.Translate(json);
+            AssertIsEqualToRepresentationInFile(geography, "ng_with_circle");
+        }
+
+        [Test]
         public void feature_collection_becomes_geometrycollection()
         {
             var json = GetObjectFromJson<FeatureCollection>("ng_earthquakes");
             var geometry = GeoToSql.Translate(json);
-            File.WriteAllText(@"C:\users\fqu\desktop\sqlgeo.txt", geometry.ToString());
             Debug.WriteLine(geometry.ToString());
             AssertIsEqualToRepresentationInFile(geometry, "ng_earthquakes");
         }
