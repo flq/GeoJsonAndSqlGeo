@@ -12,7 +12,7 @@ namespace GeoJsonAndSqlGeo
     /// and a IGeographyObject interface. All concrete items inherit from the abstract class,
     /// but only the geography items inherit the interface.
     /// </summary>
-    public class GeoJsonObjectWalker
+    internal class GeoJsonObjectWalker
     {
         private readonly GeoJSONObject _geoJsonObject;
 

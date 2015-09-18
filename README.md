@@ -13,6 +13,24 @@ Entry point is the `GeoJsonSql` class. Call `Translate`to get back and forth fro
 SqlGeography instance. Call Configure to set a few necessary things. In fact the only mandatory thing you need to set 
 is the underlying coordinate system of the SqlGeography.
 
+Note that this library supports handling circles. GeoJson does not "natively" support circles. 
+It is supported by passing a Feature with a point as geometry and a property with name "radius", providing the radius
+as a number that fits to the Spatial representation system that you are using (e.g. Meter in World Geodetic).
+
+In this mode, you need to set the library to output a `FeatureCollection` when translating fom SqlGeography to GeoJson
+through the config.
+
+```csharp
+GeoToSql.Configure(cfg =>
+{
+    cfg.SetReferenceSystem(SpatialReferenceSystem.WorldGeodetic1984);
+    cfg.SetSqlGeographyToGeoJsonConstructionStyle(GeoJsonConstructionStyle.AsFeatureCollection);
+});
+```
+
+The default is `GeoJsonConstructionStyle.AsGeometryCollection`. If in this mode a circle-like structure is encountered,
+an `InvalidOperationException` will be thrown.
+
 Useful Links:
 
 - [https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.types.sqlgeographybuilder.aspx](SqlGeographyBuilder)

@@ -43,16 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractGeoJsonAstBuilder.cs" />
-    <Compile Include="GeoJsonAstBuilderFeatureCollectionStyle.cs" />
-    <Compile Include="GeoJsonAstBuilderGeoCollectionStyle.cs" />
+    <Compile Include="SqlGeoToGeoJson\AbstractGeoJsonAstBuilder.cs" />
+    <Compile Include="SqlGeoToGeoJson\GeoJsonAstBuilderFeatureCollectionStyle.cs" />
+    <Compile Include="SqlGeoToGeoJson\GeoJsonAstBuilderGeoCollectionStyle.cs" />
     <Compile Include="GeoJsonObjectWalker.cs" />
     <Compile Include="GeoJsonToSqlGeographyObjectWalker.cs" />
     <Compile Include="GeoToSql.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="IGeoJsonAstBuilder.cs" />
+    <Compile Include="SqlGeoToGeoJson\IGeoJsonAstBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlGeographyGrammar.cs" />
+    <Compile Include="SqlGeoToGeoJson\SqlGeographyGrammar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
