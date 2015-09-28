@@ -1,14 +1,14 @@
 type file
 id GeoJsonAndSqlGeo
 description Library to translate between GeoJson and SqlGeography
-version 0.9.3
+version 0.9.5
 projectUrl https://github.com/flq/GeoJsonAndSqlGeo
 licenseUrl http://www.apache.org/licenses/LICENSE-2.0
 authors Frank Quednau
 tags geojson, geography, sqlserver, sqlgeography
 
 releaseNotes
-	Fixing parsing of sqlgeography with negative lat/long values
+	Ability to handle circles; GEOMETRYCOLLECTION EMPTY now supported.
 
 dependencies
     GeoJSON.Net ~> 0.1.38

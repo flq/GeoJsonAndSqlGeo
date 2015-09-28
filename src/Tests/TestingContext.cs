@@ -18,7 +18,24 @@ namespace Tests
         [TestFixtureSetUp]
         public void Given()
         {
-            GeoToSql.Configure(cfg => cfg.SetReferenceSystem((int)SpatialReferenceSystem.WorldGeodetic1984));
+            GeoToSql.Configure(cfg =>
+            {
+                cfg.SetReferenceSystem((int) SpatialReferenceSystem.WorldGeodetic1984);
+                cfg.SetSqlGeographyToGeoJsonConstructionStyle(ConstructionStyle);
+            });
+            AdditionalSetup();
+        }
+
+        protected virtual void AdditionalSetup()
+        {
+        }
+
+        protected virtual GeoJsonConstructionStyle ConstructionStyle
+        {
+            get
+            {
+                return GeoJsonConstructionStyle.AsGeometryCollection;
+            }
         }
 
         [SetUp]

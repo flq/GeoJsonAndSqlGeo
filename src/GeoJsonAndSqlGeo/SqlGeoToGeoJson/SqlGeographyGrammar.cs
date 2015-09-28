@@ -19,6 +19,7 @@ namespace GeoJsonAndSqlGeo
             var GEOMETRYCOLLECTION = ToTerm("GEOMETRYCOLLECTION");
             var CURVEPOLYGON = ToTerm("CURVEPOLYGON");
             var CIRCULARSTRING = ToTerm("CIRCULARSTRING");
+            var EMPTY = ToTerm("EMPTY");
             var number = new NumberLiteral("number", NumberOptions.AllowSign);
             var comma = ToTerm(", ");
             var openBracket = ToTerm("(");
@@ -48,7 +49,9 @@ namespace GeoJsonAndSqlGeo
             var geometries = new NonTerminal("geometries");
             geometries.Rule = MakePlusRule(geometries, comma, geometryDef);
 
-            var geometryCollection = new NonTerminal("geometryCollection") {Rule = GEOMETRYCOLLECTION + openBracket + geometries + closeBracket};
+            var geometryCollectionOptions = new NonTerminal("geocollopts") {Rule = (openBracket + geometries + closeBracket) | EMPTY};
+
+            var geometryCollection = new NonTerminal("geometryCollection") { Rule = GEOMETRYCOLLECTION + geometryCollectionOptions };
 
 
             // ROOT DEFINITION
@@ -57,8 +60,8 @@ namespace GeoJsonAndSqlGeo
 
             // --------------
 
-            NoopAstFor(POINT, LINESTRING, CURVEPOLYGON, CIRCULARSTRING,  number, comma, openBracket, closeBracket, 
-                       coords, coordSet, coordSets, multiCoordSets, setOfMultiCoordSets, geometryDef, geometries);
+            NoopAstFor(EMPTY, POINT, LINESTRING, CURVEPOLYGON, CIRCULARSTRING,  number, comma, openBracket, closeBracket,
+                       coords, coordSet, coordSets, multiCoordSets, setOfMultiCoordSets, geometryDef, geometries, geometryCollectionOptions);
 
             var astBuilder = GeoToSql.ConstructionStyle == GeoJsonConstructionStyle.AsGeometryCollection ?
                 (IGeoJsonAstBuilder)new GeoJsonAstBuilderGeoCollectionStyle() :

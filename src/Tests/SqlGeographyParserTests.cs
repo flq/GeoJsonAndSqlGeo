@@ -11,15 +11,64 @@ using Tests.Examples;
 
 namespace Tests
 {
+
+    public class ReadingBackCircle : TestingContext
+    {
+        private FeatureCollection newFeatureCollection;
+        private FeatureCollection loadedGeoJson;
+
+        protected override GeoJsonConstructionStyle ConstructionStyle
+        {
+            get { return GeoJsonConstructionStyle.AsFeatureCollection; }
+        }
+
+        protected override void AdditionalSetup()
+        {
+            var content = ResourceLoader.LoadSqlType("ng_with_circle");
+            var geoJson = GeoToSql.Translate(content);
+            geoJson.ShouldBeOfType<FeatureCollection>();
+            
+            newFeatureCollection = (FeatureCollection)geoJson;
+            loadedGeoJson = GetObjectFromJson<FeatureCollection>("ng_with_circle");
+        }
+
+        [Test]
+        public void same_feature_count()
+        {
+            loadedGeoJson.Features.Count.ShouldBe(newFeatureCollection.Features.Count);
+        }
+
+        [Test]
+        public void same_geometry_type()
+        {
+            for (var i = 0; i < loadedGeoJson.Features.Count; i++)
+            {
+                loadedGeoJson.Features[i].Geometry.Type.ShouldBe(newFeatureCollection.Features[i].Geometry.Type);
+            }
+        }
+
+        [Test]
+        public void check_point_and_radius_values()
+        {
+            var originalCircle = loadedGeoJson.Features.First(f => f.Geometry.Type == GeoJSONObjectType.Point);
+            var newCircle = newFeatureCollection.Features.First(f => f.Geometry.Type == GeoJSONObjectType.Point);
+            var pOrig = (GeographicPosition)((Point)originalCircle.Geometry).Coordinates;
+            var pNew = (GeographicPosition)((Point)newCircle.Geometry).Coordinates;
+            var radiusOrig = double.Parse(originalCircle.Properties["radius"].ToString());
+            var radiusNew = double.Parse(originalCircle.Properties["radius"].ToString());
+
+            pOrig.Latitude.ShouldBe(pNew.Latitude, 0.00001);
+            pOrig.Longitude.ShouldBe(pNew.Longitude, 0.00001);
+            
+            radiusOrig.ShouldBe(radiusNew, 0.001);
+        }
+
+
+    }
+
     [TestFixture]
     public class SqlGeographyParserTests : TestingContext
     {
-        [SetUp]
-        public void SetUp()
-        {
-            GeoToSql.Reset();
-            GeoToSql.Configure(cfg => cfg.SetReferenceSystem((int)SpatialReferenceSystem.WorldGeodetic1984));
-        }
 
         [Test]
         public void test_parsing_with_negative_numbers()
@@ -32,50 +81,10 @@ namespace Tests
         }
 
         [Test]
-        public void invalid_op_when_parsing_circle_ineocollection_style()
+        public void invalid_op_when_parsing_circle_in_collection_style()
         {
             var content = ResourceLoader.LoadSqlType("ng_with_circle");
             Assert.Throws<InvalidOperationException>(() => GeoToSql.Translate(content)).Message.ShouldContain("circle-like structures");
-        }
-
-        [Test]
-        public void test_getting_back_circle()
-        {
-            GeoToSql.Reset();
-            GeoToSql.Configure(cfg =>
-            {
-                cfg.SetReferenceSystem(SpatialReferenceSystem.WorldGeodetic1984);
-                cfg.SetSqlGeographyToGeoJsonConstructionStyle(GeoJsonConstructionStyle.AsFeatureCollection);
-            });
-            var content = ResourceLoader.LoadSqlType("ng_with_circle");
-            var geoJson = GeoToSql.Translate(content);
-            
-            
-            geoJson.ShouldBeOfType<FeatureCollection>();
-            var newCollection = (FeatureCollection)geoJson;
-
-            var json = GetObjectFromJson<FeatureCollection>("ng_with_circle");
-
-            json.Features.Count.ShouldBe(newCollection.Features.Count);
-
-            for (var i = 0; i < json.Features.Count; i++)
-            {
-                json.Features[i].Geometry.Type.ShouldBe(newCollection.Features[i].Geometry.Type);
-            }
-
-            var originalCircle = json.Features.First(f => f.Geometry.Type == GeoJSONObjectType.Point);
-            var newCircle = newCollection.Features.First(f => f.Geometry.Type == GeoJSONObjectType.Point);
-
-            var pOrig = (GeographicPosition)((Point) originalCircle.Geometry).Coordinates;
-            var pNew = (GeographicPosition)((Point) newCircle.Geometry).Coordinates;
-            Debug.WriteLine(pOrig);
-            Debug.WriteLine(pNew);
-            pOrig.Latitude.ShouldBe(pNew.Latitude, 0.00001);
-            pOrig.Longitude.ShouldBe(pNew.Longitude, 0.00001);
-            var radiusOrig = double.Parse(originalCircle.Properties["radius"].ToString());
-            var radiusNew = double.Parse(originalCircle.Properties["radius"].ToString());
-            Debug.WriteLine("radius orig: {0}, radius new: {1}", radiusOrig, radiusNew);
-            radiusOrig.ShouldBe(radiusNew, 0.001);
         }
     }
 }
