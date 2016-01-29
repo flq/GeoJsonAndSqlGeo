@@ -2,7 +2,7 @@ redirects: on
 source https://www.nuget.org/api/v2/
 
 nuget GeoJSON.Net
-nuget Newtonsoft.Json ~> 6.0 #Because GeoJson forgot to define its version range
+nuget Newtonsoft.Json
 nuget NUnit
 nuget Shouldly
 nuget Irony
